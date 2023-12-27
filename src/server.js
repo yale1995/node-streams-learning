@@ -12,6 +12,12 @@ import http from 'node:http'
 // PATCH --> Atualizar uma informação específica de um recurso no backend
 // DELETE --> Deletar um recurso específico do backend
 
+// Stateful !== Stateless
+
+// Statefull --> Dados armazenados em memoria
+// Stateless --> Necessita de um recurso externo para armazenar dados: banco de dados, arquivo JSON...
+
+
 const server = http.createServer((req, res) => {
     const {method, url} = req
     

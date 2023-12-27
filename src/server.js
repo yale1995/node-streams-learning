@@ -17,19 +17,45 @@ import http from 'node:http'
 // Statefull --> Dados armazenados em memoria
 // Stateless --> Necessita de um recurso externo para armazenar dados: banco de dados, arquivo JSON...
 
+// JSON - JavaScript Object Notation
+
+// Cabeçalhos (Headers) --> Metadados
+
+// 1. Content-type --> Especificar tipo de conteúdo (JSON / String)
+// 2. Status-code --> Reportar o status da requisição (Success / Error) E o motivo do erro (Erro inesperado / Não autenticado, Credenciais Inválidas)
+    // 100 - 199 --> Informational responses
+    // 200 - 299 --> Successful responses
+    // 300 - 399 --> Redirectional messages
+    // 400 - 499 --> Client error responses
+    // 500 - 599 --> Server error responses
+
+
+const users = []
+
 
 const server = http.createServer((req, res) => {
     const {method, url} = req
     
     if (method === 'GET' && url === '/users' ) {
-        return res.end('Listagem de usuários')
+
+        return res
+        .setHeader('Content-type', 'application/json')
+        .end(JSON.stringify(users))
     }
 
     if (method === 'POST' && url === '/users') {
-        return res.end('Criação de usuário')
+
+        users.push({
+            id: 1,
+            name: 'John Doe',
+            email: 'johndoe@example.com'
+        })
+
+
+        return res.writeHead(201).end()
     }
 
-    return res.end('Hello World')
+    return res.writeHead(404).end('Not found')
 })
 
 server.listen(3333)
